@@ -1,8 +1,12 @@
 package edu.will.barberApp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,65 +16,39 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "cliente")
-public class Cliente {
+public class Cliente extends Usuario{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "cliente_id")
-	private Long clienteId;
-	
-	@Column(name = "cliente_nome")
-	private String clienteNome;
-	
-	@Column(name = "cliente_telefone")
-	private String clienteTelefone;
-	
-	@Column(name = "cliente_email")
-	private String clienteEmail;
-	
+	private Long id;
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
-	private List<ServicoAgendado> servicoAgendado;
+	private List<ServicoAgendado> servicoAgendado = new ArrayList<ServicoAgendado>();
 	
 	public Cliente() {}
-	
-	public Cliente(String nome, String email, String telefone) {
-		this.clienteNome = nome;
-		this.clienteEmail = email;
-		this.clienteTelefone = telefone;
+	public Cliente(String nome, String sobrenome, String telefone, String email) {
+		super(nome, sobrenome, telefone, email);
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<ServicoAgendado> getServicoAgendado() {
+		return servicoAgendado;
+	}
+
+	public void setServicoAgendado(List<ServicoAgendado> servicoAgendado) {
+		this.servicoAgendado = servicoAgendado;
+	}
 	
-
-	public Long getClienteId() {
-		return clienteId;
-	}
-
-	public void setClienteId(Long clienteId) {
-		this.clienteId = clienteId;
-	}
-
-	public String getClienteNome() {
-		return clienteNome;
-	}
-
-	public void setClienteNome(String clienteNome) {
-		this.clienteNome = clienteNome;
-	}
-
-	public String getClienteTelefone() {
-		return clienteTelefone;
-	}
-
-	public void setClienteTelefone(String clienteTelefone) {
-		this.clienteTelefone = clienteTelefone;
-	}
-
-	public String getClienteEmail() {
-		return clienteEmail;
-	}
-
-	public void setClienteEmail(String clienteEmail) {
-		this.clienteEmail = clienteEmail;
-	}
+	
+	
+	
 	
 	
 }

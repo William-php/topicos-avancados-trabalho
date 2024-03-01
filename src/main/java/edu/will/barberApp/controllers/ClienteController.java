@@ -46,9 +46,9 @@ public class ClienteController {
 	@PutMapping(value = "/{id}")
 	public Cliente atualizar(@RequestBody Cliente c, @PathVariable Long id) {
 		Cliente newC = this.clientesPorId(id);
-		newC.setClienteEmail(c.getClienteEmail());
-		newC.setClienteNome(c.getClienteNome());
-		newC.setClienteTelefone(c.getClienteTelefone());
+		newC.setEmail(c.getEmail());
+		newC.setNome(c.getNome());
+		newC.setTelefone(c.getTelefone());
 		return this.clienteRepository.save(newC);
 	}
 	

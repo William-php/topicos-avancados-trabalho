@@ -10,6 +10,7 @@ public class ServicoAgendadoFront {
 	private Date servicoAgendadoData;
 	private Time servicoAgendadoHorario;
 	
+	public ServicoAgendadoFront() {}
 	public ServicoAgendadoFront(String bNome, String cNome, String sNome, Date sData, Time sHora) {
 		this.barbeiroNome = bNome;
 		this.clienteNome = cNome;
@@ -17,4 +18,12 @@ public class ServicoAgendadoFront {
 		this.servicoAgendadoData = sData;
 		this.servicoAgendadoHorario = sHora;
 	}
+	@Override
+	public String toString() {
+		return "ServicoAgendadoFront [barbeiroNome=" + barbeiroNome + ", clienteNome=" + clienteNome + ", servicoNome="
+				+ servicoNome + ", servicoAgendadoData=" + servicoAgendadoData + ", servicoAgendadoHorario="
+				+ servicoAgendadoHorario + "]";
+	}
+	
+	
 }

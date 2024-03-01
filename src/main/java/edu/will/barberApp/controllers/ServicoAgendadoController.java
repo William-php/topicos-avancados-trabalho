@@ -1,6 +1,8 @@
 package edu.will.barberApp.controllers;
 
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.will.barberApp.models.Barbeiro;
 import edu.will.barberApp.models.Cliente;
@@ -26,14 +30,14 @@ public class ServicoAgendadoController {
 	@Autowired
 	private ServicoAgendadoRepository servicoAgendadoRepository;
 	
-	@Autowired
-	BarbeiroController bController;
-	
-	@Autowired
-	ClienteController cController;
-	
-	@Autowired 
-	ServicoController sController;
+//	@Autowired
+//	BarbeiroController bController;
+//	
+//	@Autowired
+//	ClienteController cController;
+//	
+//	@Autowired 
+//	ServicoController sController;
 	
 	
 	@PostMapping
@@ -42,26 +46,25 @@ public class ServicoAgendadoController {
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ServicoAgendadoFront servicoAgendadoPorId(@PathVariable Long id) {
-		Optional<ServicoAgendado> s = this.servicoAgendadoRepository.findById(id);
-		ServicoAgendado s1 = s.orElseThrow();
-		ServicoAgendadoFront sFront =  null;
-		if (s1 != null) {
+	public List<ServicoAgendadoFront> listaServicos(@PathVariable Long id) {
+		List<ServicoAgendado> users = this.servicoAgendadoRepository.findServicoByBarbeiro(id);
+		List<ServicoAgendadoFront> servicosDoBarber = new ArrayList<>();
+		
+					
+		for (ServicoAgendado u:users) {
+			ServicoAgendadoFront s = new ServicoAgendadoFront(
+					u.getBarbeiro().getNome(),
+					u.getCliente().getNome(),
+					u.getServico().getServicoNome(),
+					u.getServicoData(),
+					u.getServicoHora() );
 			
-			 Barbeiro b = bController.barbeiroPorId(s1.getBarbeiro().getBarbeiroId());
-			 Cliente c = cController.clientesPorId(s1.getCliente().getClienteId());
-			 Servico serv = sController.servicoPorId(s1.getServico().getServicoId());
-			 
-			 sFront = new ServicoAgendadoFront(b.getBarbeiroNome(), c.getClienteNome(), serv.getServicoNome(),
-					 s1.getServicoData(), s1.getServicoHora());
+			System.out.println(s.toString());
+			servicosDoBarber.add(s);
 		}
 		
-		return sFront;
 		
-	}
-	
-	@GetMapping(value = "/lista")
-	public List<ServicoAgendado> listaServicos() {
-		return this.servicoAgendadoRepository.findAll();
+		
+		return servicosDoBarber.get(0);
 	}
 }

@@ -111,6 +111,13 @@ public class ServicoAgendado {
 		this.servicoHora = servicoHora;
 	}
 
+	@Override
+	public String toString() {
+		return "ServicoAgendado [servicoAgendadoId=" + servicoAgendadoId + ", barbeiro=" + barbeiro.getNome() + ", cliente="
+				+ cliente.getNome() + ", servico=" + servico.getServicoNome() + ", servicoData=" + servicoData + ", servicoHora=" + servicoHora
+				+ "]";
+	}
+
 
 
 	

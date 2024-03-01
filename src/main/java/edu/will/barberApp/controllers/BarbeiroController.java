@@ -1,5 +1,6 @@
 package edu.will.barberApp.controllers;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.will.barberApp.models.Barbeiro;
+import edu.will.barberApp.models.Usuario;
 import edu.will.barberApp.repositories.BarbeiroRepository;
+
 
 @RestController
 @RequestMapping(value = "/barbeiros")
@@ -28,20 +31,33 @@ public class BarbeiroController {
 	@Autowired
 	private BarbeiroRepository barbeiroRepository;
 	
+	
+	
 	@GetMapping(value = "/lista") //Mapeia URL
 	public List<Barbeiro> listaBarbeiros() {
+		
 		List<Barbeiro> barbeiros = barbeiroRepository.findAll();
-//		for (Barbeiro b : barbeiros) {
-//			b.getServicoAgendado().clear();
-//		}
+		
+//		
 		return barbeiros;
 	}
 	
-	@GetMapping(value = "/{nome}")
-	public Barbeiro barbeiroPorNome(@PathVariable String nome) {
+	@GetMapping(value = "/nome/{nome}")
+	public List<Barbeiro> barbeiroPorNome(@PathVariable String nome) {
 		
-		Barbeiro barbeiro = barbeiroRepository.findByName(nome);
-		barbeiro.getServicoAgendado().clear();
+		
+		List<Barbeiro> barbeiros = barbeiroRepository.findByName(nome);
+		
+		return barbeiros;
+	}
+	
+	@GetMapping(value = "/nome-sobrenome/{nome}/{sobrenome}")
+	public Barbeiro barbeiroPorNome(@PathVariable String nome, @PathVariable String sobrenome) {
+		
+		
+		Barbeiro barbeiro = barbeiroRepository.findBynomeSobrenome(nome, sobrenome);
+		System.out.println(barbeiro);
+		//System.out.println(barbeiro.getSobrenome());
 		return barbeiro;
 	}
 	
@@ -64,9 +80,9 @@ public class BarbeiroController {
 	@PutMapping(value = "/{id}")
 	public Barbeiro atualizar(@RequestBody Barbeiro b, @PathVariable Long id) {
 		Barbeiro newB = this.barbeiroPorId(id);
-		newB.setBarbeiroEmail(b.getBarbeiroEmail());
-		newB.setBarbeiroNome(b.getBarbeiroNome());
-		newB.setBarbeiroTelefone(b.getBarbeiroTelefone());		
+		newB.setEmail(b.getEmail());
+		newB.setNome(b.getNome());
+		newB.setTelefone(b.getTelefone());		
 		return this.barbeiroRepository.save(newB); 
 	}
 	

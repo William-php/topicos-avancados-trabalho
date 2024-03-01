@@ -1,5 +1,6 @@
 package edu.will.barberApp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -25,7 +26,7 @@ public class Servico {
 	private double servicoValor;
 	
 	@OneToMany(mappedBy = "servico")
-	private List<ServicoAgendado> servicoAgendado;
+	private List<ServicoAgendado> servicoAgendado = new ArrayList<ServicoAgendado>();
 	
 	public Servico() {}
 	
